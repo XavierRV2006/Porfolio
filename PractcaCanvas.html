@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Mi primer Canvas</title>
+    <style>
+        canvas {
+            border: 1px solid #000000;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Mi primer Canvas</h1>
+    <canvas id="Canvas1" width="200" height="200"></canvas>
+    <canvas id="Canvas2" width="200" height="200"></canvas>
+    <canvas id="Canvas3" width="200" height="200"></canvas>
+    <canvas id="Canvas4" width="200" height="200"></canvas>
+    <canvas id="Canvas5" width="200" height="200"></canvas>
+    <canvas id="Canvas6" width="200" height="200"></canvas>
+    <canvas id="Canvas7" width="200" height="200"></canvas>
+    <canvas id="Canvas8" width="200" height="200"></canvas>
+
+    <script type="application/javascript">
+        window.onload = function () {
+            Canvas1();
+            Canvas2();
+            Canvas3();
+            Canvas4();
+            Canvas5();
+            Canvas6();
+            Canvas7();
+            Canvas8();
+        };
+        function Canvas1() {
+            var canvas = document.getElementById("Canvas1");
+            var ctx = canvas.getContext("2d");
+            ctx.strokeStyle = "rgb(0,250,0)";
+            ctx.lineWidth = 5;
+
+            ctx.fillStyle = "red";
+            ctx.fillRect(10, 10, 50, 50);
+
+            ctx.fillStyle = "rgba(0,250,0,0.5)";
+            ctx.fillRect(30, 30, 100, 100);
+            ctx.fillStyle = "rgba(0,0,250,0.8)";
+            ctx.fillRect(45, 45, 60, 60);
+
+
+        }
+
+        function Canvas2() {
+            var canvas = document.getElementById("Canvas2");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+                
+                ctx.strokeStyle = "red";
+                ctx.fillRect(50, 50, 100, 100);
+               
+                ctx.clearRect(70, 70, 60, 60);
+
+                ctx.strokeStyle = "blue";
+                ctx.strokeRect(80, 80, 40, 40);
+
+            }
+        }
+        function Canvas3() {
+            var canvas = document.getElementById("Canvas3");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.moveTo(100, 20);
+                ctx.lineTo(150, 150);
+                ctx.lineTo(50, 150);
+                ctx.lineTo(100, 20);
+                ctx.strokeStyle = "green";
+                ctx.lineWidth = 5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(100, 40);
+                ctx.lineTo(130, 130);
+                ctx.lineTo(70, 130);
+                ctx.fillStyle = "blue";
+                ctx.fill();
+
+            }
+        }
+        function Canvas4() {
+            var canvas = document.getElementById("Canvas4");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                function degToRad(degrees) { return degrees * Math.PI / 180; }
+                ctx.arc(100, 100, 50, degToRad(30), degToRad(330));
+                ctx.lineTo(100, 100);
+                ctx.fillStyle = "orange";
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(100, 75, 5, 0, degToRad(360));
+                ctx.fillStyle = "white";
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+        function Canvas5() {
+            var canvas = document.getElementById("Canvas5");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+                var grad = ctx.createLinearGradient(25, 25, 25, 175);
+                grad.addColorStop(0, "white");
+                grad.addColorStop(1, "blue");
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(25, 25, 100, 150);
+            }
+        }
+        function Canvas6() {
+            var canvas = document.getElementById("Canvas6");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                var grad = ctx.createLinearGradient(20, 20, 100, 100); 
+                grad.addColorStop(0, "white");
+                grad.addColorStop(1, "green");
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(20, 20, 160, 160);
+            }
+        }
+        function Canvas7() {
+            var canvas = document.getElementById("Canvas7");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.moveTo(10, 10); 
+                ctx.lineTo(190, 190);
+
+                ctx.moveTo(10, 190);
+                ctx.lineTo(190, 10);
+                ctx.strokeStyle = "red";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+        }
+        function Canvas8() {
+            var canvas = document.getElementById("Canvas8");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.font = "30px Arial";
+                ctx.strokeStyle = "blue";
+                ctx.strokeText("DAWe", 30, 30);
+
+                ctx.font = "35px Verdana";
+                ctx.fillStyle = "red";
+                ctx.fillText("M09 UF2", 30, 130);   
+            }
+        }   
+
+    </script>
+</body>
+
+</html>

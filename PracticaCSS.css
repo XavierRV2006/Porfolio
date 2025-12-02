@@ -1,0 +1,36 @@
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-sherif;
+    color: black;
+    font-style: italic;
+}
+h1{
+    text-decoration: solid;
+    font-size: 3em;
+    font-family: 'Times New Roman', Times, serif;
+    color:red;
+}
+h2{
+    color:grey;
+    font-size: 2em;
+    text-decoration: underline;
+    font-style: normal;
+}
+h2~h2{
+    color:rgb(54, 54, 54);
+    font-size: 2em;
+    text-decoration: underline;
+    font-style: normal;
+}
+span{
+    color:red;
+    font-weight: bolder;
+}
+
+li{
+    list-style: upper-roman;
+    font-style:normal
+}
+a{
+    color:blue;
+    font-style:normal;
+}
