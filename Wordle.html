@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .tecla {
+            width: 100px;
+            height: 100px;
+            border: 5px grey solid;
+            border-radius: 3px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 40px;
+            color: grey;
+            text-align: center;
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        #teclado {
+            display: flex;
+            flex-wrap: wrap;
+            width: 1300px;
+        }
+
+        .miTexto {
+            width: 500px;
+            height: 50px;
+            background-color: gainsboro;
+        }
+
+        
+        .letter {
+      
+            width: 100px;
+            height: 100px;
+            border: 5px grey solid;
+            border-radius: 3px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 40px;
+            text-align: center;
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-weight: 700;
+            color: white; 
+        }
+
+        .absent { background: #b8b8bd; }   
+        .present { background: #c9b458; }  
+        .correct { background: #6aaa64; }
+    </style>
+    <title>Ejemplo 1 - Hello World JS</title>
+</head>
+
+<body>
+    <h1 id="titulo">Teclado númerico</strong></h1>
+    <div id="miTexto" class="miTexto"></div>
+    <div id="intento1" class="intento1"></div>
+    <div id="intento2" class="intento2"></div>
+    <div id="intento3" class="intento3"></div>
+    <div id="intento4" class="intento4"></div>
+    <div id="intento5" class="intento5"></div>
+    <div id="intento6" class="intento6"></div>
+    <div id="numIntentos" class="numIntentos"></div>
+    <div id="teclado"></div>
+    <button onclick="borrarLetra()">Borrar Letra</button>
+    <button onclick="comprobar()">Comprobar</button>
+
+
+    <script>
+      
+        let teclado = document.getElementById("teclado");
+
+        let numIntentos = 0;
+
+        for (let i = 65; i < 91; i++) {
+         
+            let tecla = document.createElement("div");
+            tecla.innerHTML = "<p>" + String.fromCharCode(i) + "</p>";
+            tecla.className = "tecla";
+
+            let letra = String.fromCharCode(i);
+            tecla.setAttribute("onclick", "escribeTecla('" + letra + "')");
+            teclado.appendChild(tecla);
+
+        }
+        palabraSecreta();
+
+        let palabra = "";
+        function palabraSecreta() {
+            fetch('https://random-word-api.herokuapp.com/word?lang=es&length=5')
+                .then(response => response.json())
+                .then(data => {
+                    palabra = data[0];
+                    palabra = palabra.toUpperCase();
+                    console.log("Tu palabra secreta es:", palabra);
+                });
+        }
+
+        function letrateclado(letra) {
+            alert("Has pulsado la letra " + letra);
+        }
+
+        function escribeTecla(letra) {
+            console.log(letra);
+            let miTexto = document.getElementById("miTexto");
+
+            if (miTexto.textContent.length < 5) {
+                miTexto.textContent += letra;
+                console.log("En miTexto hay " + miTexto.textContent.length + " caracteres");
+            }
+            else {
+                miTexto.style.background = "red";
+            }
+        }
+
+        function borrarLetra() {
+            let miTexto = document.getElementById("miTexto");
+            if (miTexto.textContent.length > 0) {
+                miTexto.style.background = "blue";
+                miTexto.textContent = miTexto.textContent.slice(0, -1);
+            }
+        }
+
+        function comprobar() {
+            let miTexto = document.getElementById("miTexto");
+            if (miTexto.textContent.length != 5) {
+                alert("Escribe 5 letras antes de comprobar");
+                return;
+            }
+            let intento = miTexto.textContent.toUpperCase();
+            numIntentos++;
+            if (numIntentos > 6) {
+                alert("No quedan intentos");
+                numIntentos = 6;
+                miTexto.textContent = "";
+                return;
+            }
+
+            let intentoDiv = document.getElementById("intento" + numIntentos);
+            mostrarIntentos(intento, intentoDiv);
+
+            if (intento == palabra) {
+                miTexto.style.background = "green";
+                alert("Perfecto!");
+            } else {
+                miTexto.style.background = "red";
+                alert("Te has equivocado, sigue intentando");
+            }
+
+            miTexto.textContent = "";
+
+            if (numIntentos >= 6 && intento != palabra) {
+                alert("Se han acabado los intentos. La palabra era: " + palabra);
+            }
+        }
+
+      
+        function mostrarIntentos(intento, intentoDiv) {
+   
+            intentoDiv.textContent = "";
+
+          
+            let secret = palabra.split('');
+            let guess = intento.split('');
+            let counts = {};
+            for (let ch of secret) {
+                counts[ch] = (counts[ch] || 0) + 1;
+            }
+
+        
+            let result = new Array(5).fill('absent');
+            for (let i = 0; i < 5; i++) {
+                if (guess[i] === secret[i]) {
+                    result[i] = 'correct';
+                    counts[guess[i]] = counts[guess[i]] - 1;
+                }
+            }
+
+            for (let i = 0; i < 5; i++) {
+                if (result[i] === 'correct') continue;
+                let g = guess[i];
+                if (counts[g] > 0) {
+                    result[i] = 'present';
+                    counts[g] = counts[g] - 1;
+                } else {
+                    result[i] = 'absent';
+                }
+            }
+
+         
+            for (let i = 0; i < 5; i++) {
+                let span = document.createElement('div');
+                span.className = 'letter ' + result[i];
+                span.textContent = guess[i];
+                intentoDiv.appendChild(span);
+            }
+        }
+
+        function correctorWordle() {
+          
+        }
+    </script>
+</body>
+
+</html>
